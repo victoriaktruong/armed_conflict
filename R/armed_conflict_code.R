@@ -11,3 +11,4 @@ data_long <- pivot_longer(data_wide, X2000:X2019, names_to = "Year") %>%
                                                                                  
                                                                                  
 #write.csv(cleandat, file "data\maternalmortality_clean.csv", row.names=FALSE)
+
