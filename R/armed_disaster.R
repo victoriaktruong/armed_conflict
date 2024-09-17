@@ -18,4 +18,6 @@ summary_data <- subset_data %>%
     drought = max(drought),       
     earthquake = max(earthquake)  
   ) %>%
-  ungroup() 
+  ungroup()
+
+#hello
