@@ -1,12 +1,9 @@
-conflictdata <- read.csv(here("original","conflictdata.csv"),header=TRUE)
+conflict_data <- read.csv(here("original","conflictdata.csv"),header=TRUE)
 
+conflict_data <- conflict_data %>%
+  group_by(year,ISO) %>%
+  summarize(conflict = sum(best))
+conflict_data$conflict <- ifelse(conflict_data$conflict >= 25,1,0)
+conflict_data$year <- conflict_data$year + 1 # Accounting for the lag by a year
+conflict_updated <- conflict_data
 
-# Create a function that determines to see if the countries had a conflict that year
-# We don't care if there were multiple conflicts, we just want a yes or no for conflict that year 
-# "Remember that the armed conflict variable was lagged by a year in the analysis"
-
-# 1999-2018
-
-conflict <- function(x,y){
-  mutate(conflict0 = ifelse ) 
-}

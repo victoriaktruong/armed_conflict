@@ -37,4 +37,8 @@ library(countrycode)
 merged_data$ISO <- countrycode(merged_data$Country.Name,origin = "country.name",destination = "iso3c")
 merged_data <- select(merged_data, -Country.Name)
 
-                                                                                  
+
+
+
+
+
