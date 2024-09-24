@@ -17,11 +17,10 @@ summary_data <- subset_data %>%
   group_by(Year, ISO) %>%
   summarize(
     drought = max(drought),       
-    earthquake = max(earthquake)  
-  ) %>%
+    earthquake = max(earthquake)) %>%
   ungroup() -> disasters
 
-summary_data <- summary_data %>% rename(year = Year)
+disasters <- summary_data %>% rename(year = Year)
 
 write.csv(summary_data,file=here("data","disasters.csv"),row.names = FALSE)
 
