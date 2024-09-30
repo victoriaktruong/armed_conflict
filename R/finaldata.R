@@ -8,7 +8,7 @@ disaster <- source(here("R","armed_disaster.R"))
 conflict <- source(here("R","conflict_data_script.R"))
 
 
-list_alldata <- list(merged_data, conflict_updated, disasters)
+list_alldata <- list(merged_clean, conflict_updated, disasters)
 
 finaldata0 <- list_alldata %>% reduce(full_join, by = c('ISO', 'year'))
 
@@ -20,7 +20,7 @@ finaldata <- finaldata %>%
   mutate(conflict = replace_na(conflict,0),
          drought = replace_na(drought,0),
          earthquake = replace_na(earthquake,0),
-         conflict = replace_na(conflict,0))
+         totdeath = replace_na(totdeath,0))
 
 
 if (!dir.exists(here("original", "analytical"))) {
@@ -29,6 +29,6 @@ if (!dir.exists(here("original", "analytical"))) {
 
 
 write.csv(finaldata, file = here("original","analytical","finaldata.csv"),row.names=FALSE)
-
+finaldata
 
 
