@@ -1,6 +1,7 @@
 library(here)
 library(dplyr)
 library(ggplot2)
+library(tidyverse)
 
 finaldata <- read.csv(here("original","analytical","finaldata.csv"), header = TRUE)
 
