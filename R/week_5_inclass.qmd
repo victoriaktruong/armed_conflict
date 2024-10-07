@@ -1,6 +1,6 @@
 ---
 title: "week_5_tables"
-format: html
+format: pdf
 theme: cosmo 
 editor: visual
 ---
