@@ -1,0 +1,60 @@
+---
+title: "week_5_tables"
+format: html
+theme: cosmo 
+editor: visual
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+library(tidyverse)
+library(here)
+library(texreg)
+library(multgee)
+library(table1)
+library(here)
+```
+
+You can add options to executable code like this
+
+```{r}
+data <- read.csv(here("original","analytical", "finaldata.csv"),header=TRUE)
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+
+```{r}
+
+data_2000 <- filter(data, year == 2000)
+
+
+data$conflict <- factor(data_2000$conflict, levels=c(0,1),
+                        labels=c("No Conflict","Conflict"))
+
+data$gdp1000 <- cut(data_2000$gdp1000, 
+                    breaks = c(-Inf, 1.2383, 4.0719, 13.1531, Inf),
+                    labels = c("Very Low GDP", "Low GDP", "Medium GDP", "High GDP"),
+                    right = FALSE)
+
+data$OECD <- factor(data_2000$OECD, levels =c(0,1), labels=c("Non-member","Member"))
+
+label(data_2000$gdp1000) <- "GDP"
+label(data_2000$OECD) <- "OECD"
+label(data_2000$popdens) <- "Population Density"
+label(data_2000$urban) <- "Urban Residence"
+
+caption <- "Armed Conflict Description of Data in 2000"
+
+footnote <- "No conflict: <25 battle-related deaths per year<br>Conflict: >=25 battle-related deaths per year"
+
+table1( ~ gdp1000 + OECD + popdens + urban | conflict, data = data_2000, overall=(c(Left="Total")), caption = caption, footnote = footnote)
+
+
+```
