@@ -21,7 +21,7 @@ finaldata_filtered <- finaldata %>%
 figure1 <- ggplot(finaldata_filtered, aes(x = year, y = matmor, color = country_name, group = ISO)) +
   geom_line() +
   geom_point() +
-  labs(title = "Countries with Increasing Maternal Mortality Rates (2000-2017)",
+  labs(title = "Countries with Increasing Maternal Mortality Rates(2000-2017)",
        x = "Year",
        y = "Maternal Mortality") +
   theme_minimal() +
