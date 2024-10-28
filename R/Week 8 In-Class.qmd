@@ -19,7 +19,7 @@ Log transform gdp1000:
 finaldata$loggdp1000 <- log(finaldata$gdp1000)
 ```
 
-Fitting the four mortality models and creating a table:
+Fitting the four mortality models using plm and creating a table:
 
 ```{r output=FALSE}
 preds <- as.formula(" ~ conflict + loggdp1000 + OECD + popdens + urban + 
