@@ -1,0 +1,40 @@
+---
+title: "Week 8 In-Class"
+format: html
+editor: visual
+---
+
+```{r output=FALSE}
+library(here)
+library(plm)
+library(texreg)
+
+finaldata <- read.csv(here("original","analytical","finaldata.csv"), header = TRUE)
+
+```
+
+Log transform gdp1000:
+
+```{r}
+finaldata$loggdp1000 <- log(finaldata$gdp1000)
+```
+
+Fitting the four mortality models using plm and creating a table:
+
+```{r output=FALSE}
+preds <- as.formula(" ~ conflict + loggdp1000 + OECD + popdens + urban + 
+                  agedep + male_edu + temp + rainfall1000 + earthquake + drought")
+
+matmorplm <- plm(update.formula(preds, matmor ~ .), index = c("ISO","year"), effect = "twoways", model = "within", data = finaldata)
+un5morplm <- plm(update.formula(preds, un5mor ~ .), index = c("ISO","year"), effect = "twoways", model = "within", data = finaldata)
+infmorplm <- plm(update.formula(preds, infmor ~ .), index = c("ISO","year"), effect = "twoways", model = "within", data = finaldata)
+neomorplm <- plm(update.formula(preds, neomor ~ .), index = c("ISO","year"), effect = "twoways", model = "within", data = finaldata)
+
+
+
+htmlreg(list(matmorplm, un5morplm, infmorplm, neomorplm), file = "Week8Table.html", custom.model.names = c("Maternal Mortality","Under-5 Mortality","Infant Mortality","Neonatal Mortality"), custom.coef.names = c("Armed Conflict","log(GDP)","OECD Member","Population Density","Urban Residence","Age Dependency Ratio","Male Education","Temperature","Rainfall","Earthquakes","Droughts"))
+```
+
+```{r out.width="800px", out.height ="1000px"}
+knitr::include_graphics("Week8Table.html")
+```
