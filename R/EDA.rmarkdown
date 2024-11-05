@@ -1,0 +1,91 @@
+---
+title: "Week 4 - EDA"
+format: pdf
+editor: visual
+---
+
+
+
+## Exploratory Data Analysis on the Armed Conflict Dataset
+
+Loading in libraries and reading in the final dataset
+
+
+
+```{r}
+library(dplyr)
+library(corrplot)
+library(FactoMineR)
+library(factoextra)
+library(here)
+
+# Read in the data
+data <- read.csv(here("original","analytical", "finaldata.csv"),header=TRUE)
+
+# View first few rows of dataset
+head(data)
+```
+
+
+
+We will generate summary statistics of the data to see the general distribution of the data. We will also remove any rows with missing values.
+
+
+
+```{r}
+
+# Summary statistics
+summary(data)
+
+# Remove missing rows
+clean_data <- na.omit(data)
+
+```
+
+
+
+A correlation matrix will be used to explore the relationships between numeric variables within the dataset. One observation is that there is a negative correlation between mortality and urbanization, which could be due to better healthcare infrastructure in urban areas.
+
+
+
+```{r}
+
+# Produce a correlation matrix 
+numeric_data <- clean_data %>% select_if(is.numeric)
+cor_matrix <- cor(numeric_data, use = "complete.obs")
+corrplot(cor_matrix, method = "square")
+```
+
+
+
+Performing PCA helps identify the most important components. A biplot allows us to observe how the original variables contirbute to the principal components and how the data points are distributed across the axes.
+
+A scree plot can help visualize how much variability each component explains.
+
+
+
+```{r}
+# PCA - Principal Component Analysis
+# Standardize the numeric data 
+scaled_data <- scale(numeric_data)
+
+# Performing PCA
+pca_result <- PCA(scaled_data, graph = FALSE)
+
+# Create a biplot with only arrows (variables)
+fviz_pca_var(pca_result, 
+             col.var = "steelblue",  
+             repel = TRUE,           
+             labelsize = 4)
+
+# Generate the scree plot
+fviz_eig(pca_result)
+
+```
+
+
+
+The biplot shows that the first two components, Dim1 and Dim2, explain almost 50% of the total variance in the data. Variables like matmor (maternal mortality), un5mor (under-5 mortality), and infmor (infant mortality) have strong contributions to Dim1.
+
+From the scree plot, the first principal component (PC1) accounts for about 40% of the variance, and second principal component (PC2) explains 10% of the variance. The elbow shows that the first two components account for a significant portion of the variance.
+
